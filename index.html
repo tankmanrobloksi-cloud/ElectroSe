@@ -10,6 +10,7 @@
             --accent: #e74c3c;
             --light: #ecf0f1;
             --dark: #34495e;
+            --vk-color: #0077ff;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -87,6 +88,54 @@
         }
         .buy-btn:hover { background: #c0392b; }
         footer { background: var(--primary); color: white; text-align: center; padding: 15px; margin-top: 5px; font-size: 14px; }
+
+        /* СТИЛИ ДЛЯ ВСПЛЫВАЮЩЕГО ОКНА КОНТАКТОВ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            max-width: 340px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 24px; cursor: pointer; color: #aaa;
+        }
+        .modal-avatar {
+            width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .modal-title { margin: 0 0 5px 0; font-size: 18px; font-weight: bold; }
+        .modal-text { font-size: 14px; color: #555; margin-bottom: 15px; line-height: 1.4; }
+        .vk-btn {
+            display: inline-block;
+            background: var(--vk-color);
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 15px;
+            width: 85%;
+        }
+        .vk-btn:hover { background: #0066dd; }
     </style>
 </head>
 <body>
@@ -114,9 +163,7 @@
                     </ul>
                 </div>
                 <div class="product-price">145 000 ₽</div>
-                <a href="tg://resolve?domain=NekrokodilRB&text=Здравствуйте!%20Я%20хочу%20купить%20массажное%20кресло%20Premium%20Relax%205000" style="text-decoration: none;">
-                    <button class="buy-btn">Купить в 1 клик</button>
-                </a>
+                <button class="buy-btn" onclick="openOrderModal('Premium Relax 5000')">Купить в 1 клик</button>
             </div>
 
             <!-- ТОВАР 2 -->
@@ -133,9 +180,7 @@
                     </ul>
                 </div>
                 <div class="product-price">89 000 ₽</div>
-                <a href="tg://resolve?domain=NekrokodilRB&text=Здравствуйте!%20Я%20хочу%20купить%20массажное%20кресло%20Comfort%20Jet%20S3" style="text-decoration: none;">
-                    <button class="buy-btn">Купить в 1 клик</button>
-                </a>
+                <button class="buy-btn" onclick="openOrderModal('Comfort Jet S3')">Купить в 1 клик</button>
             </div>
 
             <!-- ТОВАР 3 -->
@@ -152,17 +197,38 @@
                     </ul>
                 </div>
                 <div class="product-price">230 000 ₽</div>
-                <a href="tg://resolve?domain=NekrokodilRB&text=Здравствуйте!%20Я%20хочу%20купить%20массажное%20кресло%20CyberMassage%20Pro" style="text-decoration: none;">
-                    <button class="buy-btn">Купить в 1 клик</button>
-                </a>
+                <button class="buy-btn" onclick="openOrderModal('CyberMassage Pro')">Купить в 1 клик</button>
             </div>
 
+        </div>
+    </div>
+
+    <!-- ВСПЛЫВАЮЩЕЕ ОКНО ЗАКАЗА -->
+    <div id="orderModal" class="modal-overlay" onclick="closeOrderModal(event)">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="document.getElementById('orderModal').style.display='none'">&times;</span>
+            <img class="modal-avatar" src="avatar.png" alt="Профиль менеджера">
+            <div class="modal-title">Менеджер Nekrokodil</div>
+            <div id="modalProductText" class="modal-text">Для заказа кресла напишите мне в мессенджер:</div>
+            <!-- Ссылка на мессенджер ВКонтакте / Сферум -->
+            <a href="https://vk.me" target="_blank" class="vk-btn">Написать в VK / Сферум</a>
         </div>
     </div>
 
     <footer>
         <p>&copy; 2026 RelaxChair. Все права защищены.</p>
     </footer>
+
+    <script>
+        function openOrderModal(productName) {
+            document.getElementById('modalProductText').innerHTML = `Для заказа кресла <strong>${productName}</strong> нажмите на кнопку ниже и отправьте мне сообщение в мессенджер.`;
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        function closeOrderModal(event) {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+    </script>
 
 </body>
 </html>
